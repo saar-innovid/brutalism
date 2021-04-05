@@ -103,6 +103,9 @@ export default {
         this.setActiveByIndex(index);
       });
   },
+  watch: {
+    active: function(){this.resetChildren();this.setActiveByIndex(this.active)}
+  },
   computed: {
     direction() {
       return this.row ? "row" : this.column ? "column" : "row";
