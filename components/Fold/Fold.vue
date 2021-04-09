@@ -3,7 +3,7 @@
     class="fold"
     :style="{ 'margin-top': marginTop, margin: margin, padding: padding }"
   >
-    <div class="fold-label" @click="toggle">
+    <div class="fold-label" @click="onClick">
       <div class="fold-label-text">{{ label }}</div>
       <div class="fold-icon" :class="{ flip: !isOpen }">
         <svg width="18" height="18" viewBox="0 0 24 24">
@@ -72,9 +72,11 @@ export default {
     },
   },
   methods: {
+    onClick() {
+      this.$emit("click", !this.isOpen);
+    },
     toggle() {
       this.isOpen = !this.isOpen;
-      this.$emit("click");
       this.$emit("clicked");
       if (this.prefsId) {
         this.setPrefsById(this.prefsId, this.isOpen);
