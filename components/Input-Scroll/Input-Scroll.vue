@@ -8,7 +8,7 @@
       :class="['input-scroll-label', { filled }]"
       v-pan.prevent.mouse="panHandle"
     >
-      {{ label }}
+      {{label}}
     </div>
     <div
       class="input-scroll-wrapper"
