@@ -7,9 +7,7 @@
       v-if="!thin"
       :class="['input-scroll-label', { filled }]"
       v-pan.prevent.mouse="panHandle"
-    >
-      {{label}}
-    </div>
+    >{{label}}</div>
     <div
       class="input-scroll-wrapper"
       @mouseenter="hover = true"
@@ -22,7 +20,7 @@
     >
       <!-- Add scrubbing to label as well -->
       <div class="input-scroll-field" v-pan.prevent.mouse="panHandle">
-        <span v-if="prefix && prefix.length">{{ prefix }}</span>
+        <span v-if="prefix && prefix.length">{{prefix}}</span>
         <div @mouseup.prevent="focus($event)">
           <input
             ref="input"
@@ -57,7 +55,7 @@
             @focus="focus"
           />
         </div>
-        <span v-if="suffix && suffix.length">{{ suffix }}</span>
+        <span v-if="suffix && suffix.length">{{suffix}}</span>
       </div>
 
       <div
