@@ -4,6 +4,8 @@
     :style="{ 'margin-top': marginTop, margin: margin, padding: padding }"
   >
     <div class="fold-label" @click="onClick">
+       <div v-if="indicator" class="fold-indicator" v-bind:class="{'fold-indicator-on':indicatorOn}">
+      </div>
       <div class="fold-label-text">{{ label }}</div>
       <div class="fold-icon" :class="{ flip: !isOpen }">
         <svg width="18" height="18" viewBox="0 0 24 24">
@@ -11,6 +13,8 @@
           <path d="M0 0h24v24H0z" fill="none" />
         </svg>
       </div>
+
+
     </div>
     <!-- We should use v-show instead of v-if, but can't assign v-show
           to a slot: https://github.com/vuejs/vue/issues/5326
@@ -69,6 +73,14 @@ export default {
     prefsId: {
       type: String,
       default: "",
+    },
+    indicator: {
+      type: Boolean,
+      default: false,
+    },
+    indicatorOn: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -148,4 +160,19 @@ export default {
 .fold-content {
   padding-bottom: 8px;
 }
+
+  .fold-indicator {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: #A5A6A7;
+    margin-top: 4px;
+  }
+
+  .fold-indicator-on {
+    background: #00B4FF;
+    border-color: #00B4FF;
+
+  }
 </style>
