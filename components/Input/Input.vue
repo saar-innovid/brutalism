@@ -8,7 +8,9 @@
       },
     ]"
   >
-    <span class="input-label" v-if="label.length && !noLabel">{{ label }}</span>
+    <span class="input-label" v-if="label.length && !noLabel"
+          v-bind:style="{ width: labelWidth }"
+    >{{ label }}</span>
     <div
       :class="[
         { flat, filled },
@@ -260,6 +262,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    labelWidth: {
+      type: String,
+      default: "auto"
+    }
   },
   mixins: [
     require("../mixinStyleProps").default,
@@ -503,7 +509,7 @@ export default {
   background: var(--color-selection);
   transition: all 200ms var(--quad) 20ms;
   /* position: absolute;
-	bottom: 0px; */
+  bottom: 0px; */
 }
 
 .input-indicator-wrapper {

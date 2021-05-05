@@ -1,7 +1,7 @@
 <template>
   <div :class="['brutalism-select-wrapper', { disabled, labelOnTop }]">
     <div :class="['brutalism-position-offset', { labelOnTop }]">
-      <div v-if="label.length" class="select-label">{{ label }}</div>
+      <div v-if="label.length" class="select-label" v-bind:style="{ width: labelWidth }">{{ label }} </div>
       <div
         :class="[
           'select-container',
@@ -200,6 +200,10 @@ export default {
     prompt: {
       type: String,
       default: ""
+    },
+    labelWidth: {
+      type: String,
+      default: "auto"
     }
   },
   computed: {
@@ -332,7 +336,7 @@ export default {
     isMounted: false,
     startIndex: -1,
     type: "select",
-    menu: []
+    menu: [],
   }),
   methods: {
     toggleOpen() {
