@@ -1,5 +1,5 @@
 <template>
-  <div :class="['brutalism-select-wrapper', { disabled, labelOnTop }]">
+  <div @mousedown="onMouseDown" :class="['brutalism-select-wrapper', { disabled, labelOnTop }]">
     <div :class="['brutalism-position-offset', { labelOnTop }]">
       <div v-if="label.length" class="select-label" v-bind:style="{ width: labelWidth }">{{ label }} </div>
       <div
@@ -278,7 +278,7 @@ export default {
       // console.log("INSIDE IS", val);
     },
     activeItem(val) {
-      if (val && this.menu.length) {
+      if (val && this.menu.length && this.userDid) {
         this.$emit("update", val.value);
       }
     },
@@ -337,8 +337,16 @@ export default {
     startIndex: -1,
     type: "select",
     menu: [],
+    userDid: true,
   }),
   methods: {
+    onMouseDown(){
+      this.userDid = true;
+    },
+    switchItem(item) {
+      this.userDid = false;
+      this.activeValue = item;
+    },
     toggleOpen() {
       if (this.menu.length) this.open = !this.open;
     },
