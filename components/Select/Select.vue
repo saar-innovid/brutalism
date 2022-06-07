@@ -3,24 +3,24 @@
     <div :class="['brutalism-position-offset', { labelOnTop }]">
       <div v-if="label.length" class="select-label" v-bind:style="{ width: labelWidth }">{{ label }} </div>
       <div
-        :class="[
+          :class="[
           'select-container',
           open ? 'active' : inside && !open ? 'hover' : 'idle',
           override ? 'override' : '',
           !flat ? 'default' : '',
           { flat },
         ]"
-        @click="toggleOpen"
+          @click="toggleOpen"
       >
         <div
-          :class="[
+            :class="[
             'select-contents',
             !flat ? 'default' : '',
             appName == 'PHXS' ? 'PHXS' : '',
             { flat },
           ]"
-          @mouseenter="inside = true"
-          @mouseleave="inside = false"
+            @mouseenter="inside = true"
+            @mouseleave="inside = false"
         >
           <div class="select-value" v-if="!prompt.length">
             <Option v-if="activeItem.model" :model="activeItem.model" />
@@ -37,28 +37,29 @@
           </div>
         </div>
         <ul
-          :class="['select-menu', open ? 'show' : 'hidden']"
-          v-if="isMounted && menu.length && !$slots.default"
-          :style="getMenuStyle()"
+            :class="['select-menu', open ? 'show' : 'hidden']"
+            v-if="isMounted && menu.length && !$slots.default"
+            :style="getMenuStyle()"
         >
           <li
-            v-for="(item, i) in menu"
-            :key="i"
-            :ref="i"
-            @click="activeItem = item"
-            @mouseenter="item.hover = true"
-            @mouseleave="item.hover = false"
-            :class="[
+              v-for="(item, i) in menu"
+              :key="i"
+              :ref="i"
+              @click="activeItem = item"
+              @mouseenter="item.hover = true"
+              @mouseleave="item.hover = false"
+              :class="[
               'select-menu-item',
               item.active ? 'active' : 'idle',
               indicatorToRight ? 'reverse' : '',
               noIndicator ? 'no-indicator' : '',
               appName == 'PHXS' ? 'PHXS' : '',
+              item.enabled ? 'item-enabled' : 'item-disabled',
             ]"
           >
             <div
-              v-if="!noIndicator && $slots.indicator && !prompt.length"
-              :style="{
+                v-if="!noIndicator && $slots.indicator && !prompt.length"
+                :style="{
                 visibility:
                   item.active && !noIndicator && $slots.indicator && open
                     ? 'visible'
@@ -71,15 +72,15 @@
               <slot name="indicator" v-if="$slots.indicator" />
             </div>
             <Icon
-              name="check"
-              v-if="!$slots.indicator && !noIndicator && !prompt.length"
-              size="16px"
-              :style="`width: 20px; height: 16px; margin-top: -6px; padding: 0px ${
+                name="check"
+                v-if="!$slots.indicator && !noIndicator && !prompt.length"
+                size="16px"
+                :style="`width: 20px; height: 16px; margin-top: -6px; padding: 0px ${
                 indicatorToRight ? '3px 0px 6px' : '3px 0px 3px'
               }; visibility: ${item.active && open ? 'visible' : 'hidden'}`"
             />
             <span
-              :class="[
+                :class="[
                 'select-menu-item-label',
                 appName == 'PHXS' ? 'PHXS' : '',
               ]"
@@ -87,29 +88,30 @@
           </li>
         </ul>
         <ul
-          :class="['select-menu', open ? 'show' : 'hidden']"
-          v-else-if="isMounted && menu.length"
-          :style="getMenuStyle()"
+            :class="['select-menu', open ? 'show' : 'hidden']"
+            v-else-if="isMounted && menu.length"
+            :style="getMenuStyle()"
         >
           <li
-            v-for="(item, i) in menu"
-            :key="i"
-            :ref="i"
-            @click="activeItem = item"
-            @mouseenter="item.hover = true"
-            @mouseleave="item.hover = false"
-            :class="[
+              v-for="(item, i) in menu"
+              :key="i"
+              :ref="i"
+              @click="activeItem = item"
+              @mouseenter="item.hover = true"
+              @mouseleave="item.hover = false"
+              :class="[
               'select-menu-item',
               item.active ? 'active' : 'idle',
               indicatorToRight ? 'reverse' : '',
               noIndicator ? 'no-indicator' : '',
               appName == 'PHXS' ? 'PHXS' : '',
-              prompt.length ? 'prompted' : ''
+              prompt.length ? 'prompted' : '',
+              item.enabled ? 'item-enabled' : 'item-disabled',
             ]"
           >
             <div
-              v-if="!noIndicator && $slots.indicator && !prompt.length"
-              :style="{
+                v-if="!noIndicator && $slots.indicator && !prompt.length"
+                :style="{
                 visibility:
                   item.active && !noIndicator && $slots.indicator && open
                     ? 'visible'
@@ -117,16 +119,16 @@
                 margin: !indicatorToRight
                   ? '0px 3px 0px 0px'
                   : '0px 0px 0px 3px',
-                
+
               }"
             >
               <slot name="indicator" v-if="$slots.indicator" />
             </div>
             <Icon
-              name="check"
-              v-if="!$slots.indicator && !noIndicator && !prompt.length"
-              size="16px"
-              :style="`width: 20px; height: 16px; margin-top: -6px; padding: 0px ${
+                name="check"
+                v-if="!$slots.indicator && !noIndicator && !prompt.length"
+                size="16px"
+                :style="`width: 20px; height: 16px; margin-top: -6px; padding: 0px ${
                 indicatorToRight ? '3px 0px 6px' : '3px 0px 3px'
               }; visibility: ${item.active && open ? 'visible' : 'hidden'}`"
             />
@@ -181,6 +183,10 @@ export default {
       type: String,
       default: ""
     },
+    enabled: {
+      type: Boolean,
+      default: true
+    },
     prefsId: {
       type: String,
       default: ""
@@ -214,9 +220,9 @@ export default {
       get() {
         if (!this.menu || !this.menu.length) return { label: "none" };
         return (
-          this.menu.find(item => {
-            return item.active;
-          }) || this.menu[0]
+            this.menu.find(item => {
+              return item.active;
+            }) || this.menu[0]
         );
       },
       set(item) {
@@ -362,7 +368,8 @@ export default {
           let item = {
             index: index,
             active: false,
-            hover: false
+            hover: false,
+            enabled: typeof entry.enabled == 'undefined' ? true : entry.enabled
           };
 
           if (/string/i.test(typeof entry)) {
@@ -370,14 +377,14 @@ export default {
           } else {
             item["label"] = entry["label"] || entry["name"];
             item["value"] =
-              entry["value"] || entry["label"] || entry["name"] || item.index;
+                entry["value"] || entry["label"] || entry["name"] || item.index;
           }
           list.push(item);
         });
         this.menu = list;
         if (!this.prompt.length)
           this.activeIndex =
-            this.startIndex > -1 ? this.startIndex : this.active;
+              this.startIndex > -1 ? this.startIndex : this.active;
       } else if (this.$slots.default) {
         // Else if a collection of vNodes or Slots
         this.$slots.default.forEach((slot, index) => {
@@ -385,7 +392,8 @@ export default {
             value: slot.data.attrs.value,
             index: index,
             active: false,
-            hover: false
+            hover: false,
+            enabled: slot.data.attrs.enabled,
           };
           if (slot.children) {
             if (!/vue-component/i.test(slot.children[0].tag)) {
@@ -393,9 +401,9 @@ export default {
             } else {
               let str = `<${slot.children[0].componentOptions.tag} `;
               Object.keys(slot.children[0].componentOptions.propsData).forEach(
-                key => {
-                  str += `${key}="${slot.children[0].componentOptions.propsData[key]}"`;
-                }
+                  key => {
+                    str += `${key}="${slot.children[0].componentOptions.propsData[key]}"`;
+                  }
               );
               str += " />";
               item["model"] = str;
@@ -406,12 +414,12 @@ export default {
         this.menu = list;
         if (!this.prompt.length)
           this.activeIndex =
-            this.startIndex > -1 ? this.startIndex : this.active;
+              this.startIndex > -1 ? this.startIndex : this.active;
       }
       if (this.debug)
         console.log(
-          "Active is currently:",
-          this.activeItem.label || this.activeItem.value
+            "Active is currently:",
+            this.activeItem.label || this.activeItem.value
         );
     },
     getMenuStyle() {
@@ -424,18 +432,18 @@ export default {
       const self = this;
       this.$nextTick(() => {
         return (
-          window.innerHeight - this.$el.getBoundingClientRect().bottom > 100
+            window.innerHeight - this.$el.getBoundingClientRect().bottom > 100
         );
       });
     },
     determineMaxHeight() {
       return this.determineIfUpOrDown()
-        ? window.innerHeight -
-            this.$el.getBoundingClientRect().bottom -
-            this.padding
-        : this.$el.getBoundingClientRect().top -
-            window.innerHeight +
-            window.innerHeight;
+          ? window.innerHeight -
+          this.$el.getBoundingClientRect().bottom -
+          this.padding
+          : this.$el.getBoundingClientRect().top -
+          window.innerHeight +
+          window.innerHeight;
     }
   }
 };
@@ -576,7 +584,7 @@ ul {
 }
 
 .select-menu-item:hover {
-  background-color: var(--color-dropdown-item-hover);
+  background-color: red;
 }
 .select-menu-item.PHXS:hover {
   background-color: var(--color-dropdown-item-hover);
@@ -603,5 +611,18 @@ ul {
 
 option {
   padding: 0px;
+}
+
+.item-disabled  {
+  pointer-events: none;
+}
+
+.item-disabled > span {
+  opacity: 0.5 !important;
+}
+
+.item-enabled {
+  pointer-events: auto;
+  opacity: 1;
 }
 </style>

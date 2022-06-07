@@ -2,3 +2,4 @@ node_modules/
 .npmignore
 .logger
 .idea/
+.DS_Store
